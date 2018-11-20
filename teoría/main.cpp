@@ -148,6 +148,10 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	//END NEW//////////////////////////////
 
 	objCamera.Position_Camera(0,2.5f,3, 0,2.5f,0, 0, 1, 0);
+	objCamera.Move_Camera(-15);
+	objCamera.UpDown_Camera(3);
+	g_lookupdown = 13.0f;
+	//objCamera.Position_Camera(-10, 15, 50, -10, 0, 0, 0, 1, 0);
 
 }
 
@@ -190,12 +194,9 @@ void display ( void )   // Creamos la funcion donde se dibuja
 				glColor3f(1.0, 0.0, 0.0);
 			glEnd();
 
-			glPushMatrix();
-				//glMaterialfv(GL_FRONT, GL_AMBIENT, negro);
-				//glMaterialfv(GL_FRONT, GL_DIFFUSE, blanco);
-				//glMaterialfv(GL_FRONT, GL_SPECULAR, blanco);
-				//glMaterialf(GL_FRONT, GL_SHININESS, 10.0);
-				f.prisma(1, 120, 102,asfalto.GLindex);
+			glPushMatrix();//asfalto
+				glTranslatef(0, -2.5, 10);
+				f.prisma(1, 120, 122,asfalto.GLindex);
 			glPopMatrix();
 
 			//edificio izq
@@ -213,37 +214,179 @@ void display ( void )   // Creamos la funcion donde se dibuja
 				glTranslatef(0, 5.25 + 1, 6.75);
 				f.prisma(10.5, 13.5, 13.5, 0);
 			glPopMatrix();
+
+			//base circular
+			glPushMatrix();
+				glScalef(1, 1, 0.5);
+				glTranslatef(0, -2, 27);
+				//glRotatef(14.03, 1, 0, 0);
+				f.cilindro(33.75, 3, 50,0.5,true,false, 0);
+			glPopMatrix();
+
+			//base cuadrangular
+			glPushMatrix();
+				glTranslatef(0, -0.5, 0);
+				//glRotatef(14.03, 1, 0, 0);
+				f.prisma(3, 67.5, 27, false, false, 0);
+			glPopMatrix();
+/////////////////////--------JARDINERAS------------////////////////////////
+				//jardinera 1
+				glPushMatrix();
+				glTranslatef(7, 0, 5);
+				glScalef(0.9, 1, 1.2);
+					//pico jardinera
+					glPushMatrix();
+						glTranslatef(45, -0.5, -25);
+						glRotatef(90, 0, 1, 0);
+						f.prisma_t(3, 10, 10, 0);
+					glPopMatrix();
+					//rectángulo jardinera
+					glPushMatrix();
+						glTranslatef(45, -0.5, -10);
+						f.prisma(3, 10, 20, 0);
+					glPopMatrix();
+				glPopMatrix();
+
+				//jardinera 2
+				glPushMatrix();
+					glTranslatef(0, 0, 6);
+					glScalef(1, 1, 1.3);
+
+					//Semicírculo
+					glPushMatrix();
+						glTranslatef(15, -2, -30);
+						glRotatef(90, 0, -1, 0);
+						f.cilindro(5, 3, 35, 1, true, true, 0);
+					glPopMatrix();
+
+					//pico jardinera
+					glPushMatrix();
+						glTranslatef(40, -0.5, -30);
+						glRotatef(90, 0, -1, 0);
+						f.prisma_t(3, 10, 10, 0);
+					glPopMatrix();
+
+					//rectángulo jardinera
+					glPushMatrix();
+						glTranslatef(25, -0.5, -30);
+						glRotatef(90, 0, 1, 0);
+						f.prisma(3, 10, 20, 0);
+					glPopMatrix();
+				glPopMatrix();
+
+				//jardinera pequeña
+				glPushMatrix();
+					glTranslatef(6.75, -2,60);
+					glRotatef(270, 1, 0, 0);
+					f.jard_p(1.5, 1.5, 3, 0);
+				glPopMatrix();
+
+				//jardinera grande
+				glPushMatrix();
+					glTranslatef(35, -2, 45);
+					glRotatef(270, 1, 0, 0);
+					f.jard_g(5, 4, 3, 0);
+				glPopMatrix();
+
+				////////JARDINERAS LADO IZQUIERDO/////////////////
+
+				glPushMatrix();
+				glTranslatef(-0, -1.0, 0);
+				glRotatef(180, 0, 0, 1);
+					//jardinera 1
+					glPushMatrix();
+					glTranslatef(7, 0, 5);
+					glScalef(0.9, 1, 1.2);
+					//pico jardinera
+					glPushMatrix();
+					glTranslatef(45, -0.5, -25);
+					glRotatef(90, 0, 1, 0);
+					f.prisma_t(3, 10, 10, 0);
+					glPopMatrix();
+					//rectángulo jardinera
+					glPushMatrix();
+					glTranslatef(45, -0.5, -10);
+					f.prisma(3, 10, 20, 0);
+					glPopMatrix();
+					glPopMatrix();
+
+					//jardinera 2
+					glPushMatrix();
+					glTranslatef(0, 0, 6);
+					glScalef(1, 1, 1.3);
+
+					//Semicírculo
+					glPushMatrix();
+					glTranslatef(15, -2, -30);
+					glRotatef(90, 0, -1, 0);
+					f.cilindro(5, 3, 35, 1, true, true, 0);
+					glPopMatrix();
+
+					//pico jardinera
+					glPushMatrix();
+					glTranslatef(40, -0.5, -30);
+					glRotatef(90, 0, -1, 0);
+					f.prisma_t(3, 10, 10, 0);
+					glPopMatrix();
+
+					//rectángulo jardinera
+					glPushMatrix();
+					glTranslatef(25, -0.5, -30);
+					glRotatef(90, 0, 1, 0);
+					f.prisma(3, 10, 20, 0);
+					glPopMatrix();
+					glPopMatrix();
+
+					//jardinera pequeña
+					glPushMatrix();
+					glTranslatef(6.75, -2, 60);
+					glRotatef(270, 1, 0, 0);
+					f.jard_p(1.5, 1.5, 3, 0);
+					glPopMatrix();
+
+					//jardinera grande
+					glPushMatrix();
+					glTranslatef(35, -2, 45);
+					glRotatef(270, 1, 0, 0);
+					f.jard_g(5, 4, 3, 0);
+					glPopMatrix();
+				glPopMatrix();
+///////////////////////////////////////////////////////////////////////////
+
 			//salida
 			glPushMatrix();
 				glTranslatef(0, 4 + 1, -8.5 + 6.75);
 				f.prisma(8.0, 13.5, 3.5, 0);
 			glPopMatrix();
-			//explanada salida
-			glPushMatrix();
-				glTranslatef(0, 1.5 + 1,-6.75 -8.5 + 6.75);
-				f.prisma(3.0, 13.5, 10, 0);
-			glPopMatrix();
-			//escalon1
-			glPushMatrix();
-				glTranslatef(0, 0.375 + 1, -9 -6.75 - 8.5 + 6.75);
-				f.prisma(0.6, 13.5, 8, 0);
-			glPopMatrix();
-			//escalon2
-			glPushMatrix();
-				glTranslatef(0, 0.975 + 1,2 -9 - 6.75 - 8.5 + 6.75);
-				f.prisma(0.6, 13.5, 8, 0);
-			glPopMatrix();
-			//escalon3
-			glPushMatrix();
-				glTranslatef(0, 1.575 + 1,4 -9 - 6.75 - 8.5 + 6.75);
-				f.prisma(0.6, 13.5, 8, 0);
-			glPopMatrix();
-			//escalon4
-			glPushMatrix();
-				glTranslatef(0, 2.175 + 1,6 -9 - 6.75 - 8.5 + 6.75);
-				f.prisma(0.6, 13.5, 8, 0);
-			glPopMatrix();
 
+			glPushMatrix();
+			glTranslatef(0, -3, 0);
+				//explanada salida
+				glPushMatrix();
+					glTranslatef(0, 1.5 + 1,-6.75 -8.5 + 6.75);
+					f.prisma(3.0, 13.5, 10, 0);
+				glPopMatrix();
+				//escalon1
+				glPushMatrix();
+					glTranslatef(0, 0.375 + 1, -9 -6.75 - 8.5 + 6.75);
+					f.prisma(0.6, 13.5, 8, 0);
+				glPopMatrix();
+				//escalon2
+				glPushMatrix();
+					glTranslatef(0, 0.975 + 1,2 -9 - 6.75 - 8.5 + 6.75);
+					f.prisma(0.6, 13.5, 8, 0);
+				glPopMatrix();
+				//escalon3
+				glPushMatrix();
+					glTranslatef(0, 1.575 + 1,4 -9 - 6.75 - 8.5 + 6.75);
+					f.prisma(0.6, 13.5, 8, 0);
+				glPopMatrix();
+				//escalon4
+				glPushMatrix();
+					glTranslatef(0, 2.175 + 1,6 -9 - 6.75 - 8.5 + 6.75);
+					f.prisma(0.6, 13.5, 8, 0);
+				glPopMatrix();
+			glPopMatrix();
 			/*glPushMatrix();
 				//glTranslatef(0.0, 8.0, 0.0);
 				glMaterialfv(GL_FRONT, GL_AMBIENT, negro);
@@ -369,7 +512,7 @@ int main ( int argc, char** argv )   // Main Function
   glutInitDisplayMode (GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH); // Display Mode (Clores RGB y alpha | Buffer Doble )
   glutInitWindowSize  (2000, 2000);	// Tamaño de la Ventana
   glutInitWindowPosition (0, 0);	//Posicion de la Ventana
-  glutCreateWindow    ("Jerarquia"); // Nombre de la Ventana
+  glutCreateWindow    ("Proyecto de Computación Gráfica"); // Nombre de la Ventana
   //glutFullScreen     ( );         // Full Screen
   InitGL ();						// Parametros iniciales de la aplicacion
   glutDisplayFunc     ( display );  //Indicamos a Glut función de dibujo
