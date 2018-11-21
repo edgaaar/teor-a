@@ -40,10 +40,18 @@ GLfloat Position2[]= { 0.0f, 0.0f, -5.0f, 1.0f };			// Light Position
 CTexture text1;
 CTexture asfalto;
 CTexture tree;
+CTexture tree2;
+CTexture edi;
+CTexture pasto;
+CTexture borde;
+CTexture ama;
+CTexture frente;
+CTexture lateral;
+CTexture superior;
 
 CFiguras sky;
 
-void arbol()
+void arbol(CTexture textura)
 {
 	glPushMatrix();
 					glDisable(GL_LIGHTING);
@@ -52,7 +60,7 @@ void arbol()
 					glAlphaFunc( GL_GREATER, 0.1 );
 					//glEnable(GL_BLEND);     // Turn Blending On
 					//glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-					glBindTexture(GL_TEXTURE_2D, tree.GLindex);
+					glBindTexture(GL_TEXTURE_2D, textura.GLindex);
 					glBegin(GL_QUADS); //plano
 						glColor3f(1.0, 1.0, 1.0);
 						glNormal3f( 0.0f, 0.0f, 1.0f);
@@ -145,10 +153,46 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	asfalto.LoadTGA("asp.tga");
 	asfalto.BuildGLTexture();
 	asfalto.ReleaseImage();
+
+	tree.LoadTGA("ar1.tga");
+	tree.BuildGLTexture();
+	tree.ReleaseImage();
+
+	tree2.LoadTGA("ar2.tga");
+	tree2.BuildGLTexture();
+	tree2.ReleaseImage();
+
+	edi.LoadTGA("edi1.tga");
+	edi.BuildGLTexture();
+	edi.ReleaseImage();
+
+	pasto.LoadTGA("pas1.tga");
+	pasto.BuildGLTexture();
+	pasto.ReleaseImage();
+
+	borde.LoadTGA("mad1.tga");
+	borde.BuildGLTexture();
+	borde.ReleaseImage();
+
+	ama.LoadTGA("am.tga");
+	ama.BuildGLTexture();
+	ama.ReleaseImage();
+
+	frente.LoadTGA("fren.tga");
+	frente.BuildGLTexture();
+	frente.ReleaseImage();
+
+	lateral.LoadTGA("lat.tga");
+	lateral.BuildGLTexture();
+	lateral.ReleaseImage();
+
+	superior.LoadTGA("sup.tga");
+	superior.BuildGLTexture();
+	superior.ReleaseImage();
 	//END NEW//////////////////////////////
 
 	objCamera.Position_Camera(0,2.5f,3, 0,2.5f,0, 0, 1, 0);
-	objCamera.Move_Camera(-15);
+	objCamera.Move_Camera(-20);
 	objCamera.UpDown_Camera(3);
 	g_lookupdown = 13.0f;
 	//objCamera.Position_Camera(-10, 15, 50, -10, 0, 0, 0, 1, 0);
@@ -196,39 +240,74 @@ void display ( void )   // Creamos la funcion donde se dibuja
 
 			glPushMatrix();//asfalto
 				glTranslatef(0, -2.5, 10);
-				f.prisma(1, 120, 122,asfalto.GLindex);
+				f.prisma(1, 120, 122,asfalto.GLindex,asfalto.GLindex);
 			glPopMatrix();
-
-			//edificio izq
+			//árbol frente 1
+			glPushMatrix();
+				glTranslatef(-45, 0, 35);
+				glScalef(0.4, 1.0, 0.4);
+				arbol(tree);
+			glPopMatrix();
+			//árbol frente 2
+			glPushMatrix();
+				glTranslatef(45, 0, 35);
+				glScalef(0.3, 1.0, 0.3);
+				arbol(tree);
+			glPopMatrix();
+			//árbol atrás 1
+			glPushMatrix();
+				glTranslatef(-20, 0, -33);
+				glScalef(0.4, 1.0, 0.4);
+				arbol(tree2);
+			glPopMatrix();
+			//árbol atrás 2
+			glPushMatrix();
+				glTranslatef(20, 0, -33);
+				glScalef(0.4, 1.0, 0.4);
+				arbol(tree2);
+			glPopMatrix();
+			//edificio der
 			glPushMatrix();
 				glTranslatef(20.25, 27 + 1, 0);
-				f.prisma(54, 27, 27, 0);
+				f.prisma(54, 27, 27, edi.GLindex, 0);
 			glPopMatrix();
 			//edificio izq
 			glPushMatrix();
 				glTranslatef(-20.25, 27 + 1, 0);
-				f.prisma(54, 27, 27, 0);
+				f.prisma(54, 27, 27, edi.GLindex,0);
 			glPopMatrix();
 			//vestíbulo
 			glPushMatrix();
 				glTranslatef(0, 5.25 + 1, 6.75);
-				f.prisma(10.5, 13.5, 13.5, 0);
+				f.prisma(10.5, 13.5, 13.5, ama.GLindex,ama.GLindex);
 			glPopMatrix();
 
-			//base circular
+			//base circular dcha
 			glPushMatrix();
-				glScalef(1, 1, 0.5);
-				glTranslatef(0, -2, 27);
+				glScalef(0.7, 1, 0.5);
+				glTranslatef(14.5, -2.1, 27);
 				//glRotatef(14.03, 1, 0, 0);
-				f.cilindro(33.75, 3, 50,0.5,true,false, 0);
+				f.cilindro(33.75, 3, 50,0.5,pasto.GLindex,borde.GLindex, true);
+			glPopMatrix();
+
+			//base circular izq
+			glPushMatrix();
+				glScalef(0.7, 1, 0.5);
+				glTranslatef(-14.5, 0.9, 27);
+				glRotatef(180, 0, 0, 1);
+				f.cilindro(33.75, 3, 50, 0.5, pasto.GLindex, borde.GLindex, true);
 			glPopMatrix();
 
 			//base cuadrangular
 			glPushMatrix();
 				glTranslatef(0, -0.5, 0);
 				//glRotatef(14.03, 1, 0, 0);
-				f.prisma(3, 67.5, 27, false, false, 0);
+				f.prisma(3, 67.5, 27, false, false, borde.GLindex);
 			glPopMatrix();
+
+
+			
+
 /////////////////////--------JARDINERAS------------////////////////////////
 				//jardinera 1
 				glPushMatrix();
@@ -238,12 +317,12 @@ void display ( void )   // Creamos la funcion donde se dibuja
 					glPushMatrix();
 						glTranslatef(45, -0.5, -25);
 						glRotatef(90, 0, 1, 0);
-						f.prisma_t(3, 10, 10, 0);
+						f.prisma_t(3, 10, 10, borde.GLindex, pasto.GLindex);
 					glPopMatrix();
 					//rectángulo jardinera
 					glPushMatrix();
 						glTranslatef(45, -0.5, -10);
-						f.prisma(3, 10, 20, 0);
+						f.prisma(3, 10, 20, borde.GLindex, pasto.GLindex);
 					glPopMatrix();
 				glPopMatrix();
 
@@ -254,23 +333,23 @@ void display ( void )   // Creamos la funcion donde se dibuja
 
 					//Semicírculo
 					glPushMatrix();
-						glTranslatef(15, -2, -30);
+						glTranslatef(15, -2.01, -30);
 						glRotatef(90, 0, -1, 0);
-						f.cilindro(5, 3, 35, 1, true, true, 0);
+						f.cilindro(5, 3, 35, 1, true, true, pasto.GLindex, borde.GLindex);
 					glPopMatrix();
 
 					//pico jardinera
 					glPushMatrix();
 						glTranslatef(40, -0.5, -30);
 						glRotatef(90, 0, -1, 0);
-						f.prisma_t(3, 10, 10, 0);
+						f.prisma_t(3, 10, 10, borde.GLindex, pasto.GLindex);
 					glPopMatrix();
 
 					//rectángulo jardinera
 					glPushMatrix();
 						glTranslatef(25, -0.5, -30);
 						glRotatef(90, 0, 1, 0);
-						f.prisma(3, 10, 20, 0);
+						f.prisma(3, 10, 20, borde.GLindex, pasto.GLindex);
 					glPopMatrix();
 				glPopMatrix();
 
@@ -278,14 +357,14 @@ void display ( void )   // Creamos la funcion donde se dibuja
 				glPushMatrix();
 					glTranslatef(6.75, -2,60);
 					glRotatef(270, 1, 0, 0);
-					f.jard_p(1.5, 1.5, 3, 0);
+					f.jard_p(1.5, 1.5, 3, borde.GLindex, pasto.GLindex);
 				glPopMatrix();
 
 				//jardinera grande
 				glPushMatrix();
 					glTranslatef(35, -2, 45);
 					glRotatef(270, 1, 0, 0);
-					f.jard_g(5, 4, 3, 0);
+					f.jard_g(5, 4, 3, borde.GLindex, pasto.GLindex);
 				glPopMatrix();
 
 				////////JARDINERAS LADO IZQUIERDO/////////////////
@@ -301,12 +380,12 @@ void display ( void )   // Creamos la funcion donde se dibuja
 					glPushMatrix();
 					glTranslatef(45, -0.5, -25);
 					glRotatef(90, 0, 1, 0);
-					f.prisma_t(3, 10, 10, 0);
+					f.prisma_t(3, 10, 10, borde.GLindex, pasto.GLindex);
 					glPopMatrix();
 					//rectángulo jardinera
 					glPushMatrix();
 					glTranslatef(45, -0.5, -10);
-					f.prisma(3, 10, 20, 0);
+					f.prisma(3, 10, 20, borde.GLindex, pasto.GLindex);
 					glPopMatrix();
 					glPopMatrix();
 
@@ -317,23 +396,23 @@ void display ( void )   // Creamos la funcion donde se dibuja
 
 					//Semicírculo
 					glPushMatrix();
-					glTranslatef(15, -2, -30);
+					glTranslatef(15, -2.01, -30);
 					glRotatef(90, 0, -1, 0);
-					f.cilindro(5, 3, 35, 1, true, true, 0);
+					f.cilindro(5, 3, 35, 1, true, true, pasto.GLindex, borde.GLindex);
 					glPopMatrix();
 
 					//pico jardinera
 					glPushMatrix();
 					glTranslatef(40, -0.5, -30);
 					glRotatef(90, 0, -1, 0);
-					f.prisma_t(3, 10, 10, 0);
+					f.prisma_t(3, 10, 10, borde.GLindex, pasto.GLindex);
 					glPopMatrix();
 
 					//rectángulo jardinera
 					glPushMatrix();
 					glTranslatef(25, -0.5, -30);
 					glRotatef(90, 0, 1, 0);
-					f.prisma(3, 10, 20, 0);
+					f.prisma(3, 10, 20, borde.GLindex, pasto.GLindex);
 					glPopMatrix();
 					glPopMatrix();
 
@@ -341,14 +420,14 @@ void display ( void )   // Creamos la funcion donde se dibuja
 					glPushMatrix();
 					glTranslatef(6.75, -2, 60);
 					glRotatef(270, 1, 0, 0);
-					f.jard_p(1.5, 1.5, 3, 0);
+					f.jard_p(1.5, 1.5, 3, borde.GLindex, pasto.GLindex);
 					glPopMatrix();
 
 					//jardinera grande
 					glPushMatrix();
 					glTranslatef(35, -2, 45);
 					glRotatef(270, 1, 0, 0);
-					f.jard_g(5, 4, 3, 0);
+					f.jard_g(5, 4, 3, borde.GLindex, pasto.GLindex);
 					glPopMatrix();
 				glPopMatrix();
 ///////////////////////////////////////////////////////////////////////////
@@ -356,7 +435,7 @@ void display ( void )   // Creamos la funcion donde se dibuja
 			//salida
 			glPushMatrix();
 				glTranslatef(0, 4 + 1, -8.5 + 6.75);
-				f.prisma(8.0, 13.5, 3.5, 0);
+				f.prisma(8.0, 13.5, 3.5, ama.GLindex,ama.GLindex);
 			glPopMatrix();
 
 			glPushMatrix();
@@ -364,27 +443,27 @@ void display ( void )   // Creamos la funcion donde se dibuja
 				//explanada salida
 				glPushMatrix();
 					glTranslatef(0, 1.5 + 1,-6.75 -8.5 + 6.75);
-					f.prisma(3.0, 13.5, 10, 0);
+					f.prisma(3.0, 13.5, 10, asfalto.GLindex,asfalto.GLindex);
 				glPopMatrix();
 				//escalon1
 				glPushMatrix();
 					glTranslatef(0, 0.375 + 1, -9 -6.75 - 8.5 + 6.75);
-					f.prisma(0.6, 13.5, 8, 0);
+					f.prisma(0.6, 13.5, 8, asfalto.GLindex, asfalto.GLindex);
 				glPopMatrix();
 				//escalon2
 				glPushMatrix();
 					glTranslatef(0, 0.975 + 1,2 -9 - 6.75 - 8.5 + 6.75);
-					f.prisma(0.6, 13.5, 8, 0);
+					f.prisma(0.6, 13.5, 8, asfalto.GLindex, asfalto.GLindex);
 				glPopMatrix();
 				//escalon3
 				glPushMatrix();
 					glTranslatef(0, 1.575 + 1,4 -9 - 6.75 - 8.5 + 6.75);
-					f.prisma(0.6, 13.5, 8, 0);
+					f.prisma(0.6, 13.5, 8, asfalto.GLindex, asfalto.GLindex);
 				glPopMatrix();
 				//escalon4
 				glPushMatrix();
 					glTranslatef(0, 2.175 + 1,6 -9 - 6.75 - 8.5 + 6.75);
-					f.prisma(0.6, 13.5, 8, 0);
+					f.prisma(0.6, 13.5, 8, asfalto.GLindex, asfalto.GLindex);
 				glPopMatrix();
 			glPopMatrix();
 			/*glPushMatrix();
@@ -405,8 +484,19 @@ void display ( void )   // Creamos la funcion donde se dibuja
 			glPopMatrix();*/
 
 		glPopMatrix(); 
-
+		//entrada
+		//glEnable(GL_BLEND);
+		//glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+		glEnable(GL_ALPHA_TEST);
+		glAlphaFunc(GL_GREATER, 0.1f);
+		glPushMatrix();
+		glTranslatef(0, 4.6, 6.5 + 15.4);
+		f.prisma_ent(13.5, 20, 17, frente.GLindex, lateral.GLindex, superior.GLindex);
+		glPopMatrix();
+		//glDisable(GL_BLEND);
+		glDisable(GL_ALPHA_TEST);
 	glPopMatrix();
+
 
 	glutSwapBuffers ( );
 
@@ -432,7 +522,7 @@ void reshape ( int width , int height )   // Creamos funcion Reshape
 
 	// Tipo de Vista
 	
-	glFrustum (-0.1, 0.1,-0.1, 0.1, 0.1, 350.0);
+	glFrustum (-0.1, 0.1,-0.1, 0.1, 0.1, 550.0);
 
 	glMatrixMode(GL_MODELVIEW);							// Seleccionamos Modelview Matrix
 	glLoadIdentity();

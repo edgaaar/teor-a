@@ -190,7 +190,7 @@ void CFiguras::prisma(float altura, float largo, float profundidad, boolean tapa
 }
 
 
-void CFiguras::prisma (float altura, float largo, float profundidad, GLuint text)  //Funcion creacion prisma
+void CFiguras::prisma (float altura, float largo, float profundidad, GLuint text_lat, GLuint text_sup)  //Funcion creacion prisma
 {
 
 	GLfloat vertice [8][3] = {
@@ -204,7 +204,7 @@ void CFiguras::prisma (float altura, float largo, float profundidad, GLuint text
 				{-0.5*largo ,0.5*altura , 0.5*profundidad},    //Coordenadas Vértice 8 V8
 				};
 
-		glBindTexture(GL_TEXTURE_2D, text);   // choose the texture to use.
+		glBindTexture(GL_TEXTURE_2D, text_lat);   // choose the texture to use.
 		glBegin(GL_POLYGON);	//Front
 			glNormal3f( 0.0f, 0.0f, 1.0f);
 			glTexCoord2f(0.0f, 0.0f); glVertex3fv(vertice[0]);
@@ -239,6 +239,7 @@ void CFiguras::prisma (float altura, float largo, float profundidad, GLuint text
 			glTexCoord2f(0.0f, 0.0f); glVertex3fv(vertice[2]);
 		glEnd();
 
+		glBindTexture(GL_TEXTURE_2D, text_sup);
 		glBegin(GL_POLYGON);  //Bottom
 			glNormal3f( 0.0f,-1.0f, 0.0f);
 			glTexCoord2f(0.0f, 0.0f); glVertex3fv(vertice[0]);
@@ -256,7 +257,77 @@ void CFiguras::prisma (float altura, float largo, float profundidad, GLuint text
 		glEnd();
 }
 
-void CFiguras::jard_g(float altura, float largo, float profundidad, GLuint text)  //Funcion creacion prisma
+void CFiguras::prisma_ent(float altura, float largo, float profundidad, GLuint text_fre, GLuint text_lat, GLuint text_sup)  //Funcion creacion prisma
+{
+
+	GLfloat vertice[8][3] = {
+				{0.5*largo ,-0.5*altura, 0.5*profundidad},    //Coordenadas Vértice 1 V1
+				{-0.5*largo ,-0.5*altura , 0.5*profundidad},    //Coordenadas Vértice 2 V2
+				{-0.5*largo ,-0.5*altura , -0.5*profundidad},    //Coordenadas Vértice 3 V3
+				{0.5*largo ,-0.5*altura , -0.5*profundidad},    //Coordenadas Vértice 4 V4
+				{0.5*largo ,0.5*altura , 0.5*profundidad},    //Coordenadas Vértice 5 V5
+				{0.5*largo ,0.5*altura , -0.5*profundidad},    //Coordenadas Vértice 6 V6
+				{-0.5*largo ,0.5*altura , -0.5*profundidad},    //Coordenadas Vértice 7 V7
+				{-0.5*largo ,0.5*altura , 0.5*profundidad},    //Coordenadas Vértice 8 V8
+	};
+
+	glBindTexture(GL_TEXTURE_2D, text_fre);   // choose the texture to use.
+	glBegin(GL_POLYGON);	//Front
+	glNormal3f(0.0f, 0.0f, 1.0f);
+	glTexCoord2f(0.0f, 0.0f); glVertex3fv(vertice[0]);
+	glTexCoord2f(0.0f, 1.0f); glVertex3fv(vertice[4]);
+	glTexCoord2f(1.0f, 1.0f); glVertex3fv(vertice[7]);
+	glTexCoord2f(1.0f, 0.0f); glVertex3fv(vertice[1]);
+	glEnd();
+
+	glBindTexture(GL_TEXTURE_2D, text_lat);   // choose the texture to use.
+
+	glBegin(GL_POLYGON);	//Right
+		//glColor3f(0.0,0.0,1.0);
+	glNormal3f(1.0f, 0.0f, 0.0f);
+	glTexCoord2f(0.0f, 0.0f); glVertex3fv(vertice[3]);
+	glTexCoord2f(1.0f, 0.0f); glVertex3fv(vertice[0]);
+	glTexCoord2f(1.0f, 1.0f); glVertex3fv(vertice[4]);
+	glTexCoord2f(0.0f, 1.0f); glVertex3fv(vertice[5]);
+	glEnd();
+
+	/*glBegin(GL_POLYGON);	//Back
+	glNormal3f(0.0f, 0.0f, -1.0f);
+	glTexCoord2f(0.0f, 1.0f); glVertex3fv(vertice[6]);
+	glTexCoord2f(1.0f, 1.0f); glVertex3fv(vertice[5]);
+	glTexCoord2f(1.0f, 0.0f); glVertex3fv(vertice[3]);
+	glTexCoord2f(0.0f, 0.0f); glVertex3fv(vertice[2]);
+	glEnd();*/
+
+	glBegin(GL_POLYGON);  //Left
+		//glColor3f(1.0,1.0,1.0);
+	glNormal3f(-1.0f, 0.0f, 0.0f);
+	glTexCoord2f(1.0f, 0.0f); glVertex3fv(vertice[1]);
+	glTexCoord2f(1.0f, 1.0f); glVertex3fv(vertice[7]);
+	glTexCoord2f(0.0f, 1.0f); glVertex3fv(vertice[6]);
+	glTexCoord2f(0.0f, 0.0f); glVertex3fv(vertice[2]);
+	glEnd();
+
+	/*glBindTexture(GL_TEXTURE_2D, text_sup);
+	glBegin(GL_POLYGON);  //Bottom
+	glNormal3f(0.0f, -1.0f, 0.0f);
+	glTexCoord2f(0.0f, 0.0f); glVertex3fv(vertice[0]);
+	glTexCoord2f(1.0f, 0.0f); glVertex3fv(vertice[1]);
+	glTexCoord2f(1.0f, 1.0f); glVertex3fv(vertice[2]);
+	glTexCoord2f(0.0f, 1.0f); glVertex3fv(vertice[3]);
+	glEnd();*/
+
+	glBindTexture(GL_TEXTURE_2D, text_sup);   // choose the texture to use.
+	glBegin(GL_POLYGON);  //Top
+	glNormal3f(0.0f, 1.0f, 0.0f);
+	glTexCoord2f(0.0f, 0.0f); glVertex3fv(vertice[7]);
+	glTexCoord2f(1.0f, 0.0f); glVertex3fv(vertice[4]);
+	glTexCoord2f(1.0f, 1.0f); glVertex3fv(vertice[5]);
+	glTexCoord2f(0.0f, 1.0f); glVertex3fv(vertice[6]);
+	glEnd();
+}
+
+void CFiguras::jard_g(float altura, float largo, float profundidad, GLuint text, GLuint text2)  //Funcion creacion prisma
 {
 
 	GLfloat vertice[16][3] = {
@@ -345,20 +416,33 @@ void CFiguras::jard_g(float altura, float largo, float profundidad, GLuint text)
 	glTexCoord2f(0.0f, 1.0f); glVertex3fv(vertice[0]);
 	glEnd();
 
-	glBegin(GL_POLYGON);  //Top
+	glBindTexture(GL_TEXTURE_2D, text2);
+	glBegin(GL_POLYGON);  //Tapa
 	glNormal3f(0.0f, 0.0f, 1.0f);
-	glTexCoord2f(0.0f, 0.0f); glVertex3fv(vertice[8]);
-	glTexCoord2f(0.0f, 0.5f); glVertex3fv(vertice[9]);
-	glTexCoord2f(0.0f, 1.0f); glVertex3fv(vertice[10]);
-	glTexCoord2f(0.5f, 1.0f); glVertex3fv(vertice[11]);
-	glTexCoord2f(1.0f, 1.0f); glVertex3fv(vertice[12]);
-	glTexCoord2f(1.0f, 0.5f); glVertex3fv(vertice[13]);
-	glTexCoord2f(1.0f, 0.0f); glVertex3fv(vertice[14]);
-	glTexCoord2f(0.5f, 0.0f); glVertex3fv(vertice[15]);
+	glTexCoord2f(0.0f, 0.0f); glVertex3fv(vertice[9]);
+	glTexCoord2f(0.083f, 0.5f); glVertex3fv(vertice[10]);
+	glTexCoord2f(0.17f, 0.875f); glVertex3fv(vertice[11]);
+	glTexCoord2f(0.33f, 1.0f); glVertex3fv(vertice[12]);
+	glTexCoord2f(0.5f, 0.625f); glVertex3fv(vertice[13]);
+	glTexCoord2f(0.67f, 0.625f); glVertex3fv(vertice[14]);
+	glTexCoord2f(1.0f, 0.5f); glVertex3fv(vertice[15]);
+	glTexCoord2f(1.0f, 0.0f); glVertex3fv(vertice[8]);
+	glEnd();
+
+	glBegin(GL_POLYGON);  //Base
+	glNormal3f(0.0f, 0.0f, -1.0f);
+	glTexCoord2f(0.0f, 0.0f); glVertex3fv(vertice[1]);
+	glTexCoord2f(0.083f, 0.5f); glVertex3fv(vertice[2]);
+	glTexCoord2f(0.17f, 0.875f); glVertex3fv(vertice[3]);
+	glTexCoord2f(0.33f, 1.0f); glVertex3fv(vertice[4]);
+	glTexCoord2f(0.5f, 0.625f); glVertex3fv(vertice[5]);
+	glTexCoord2f(0.67f, 0.625f); glVertex3fv(vertice[6]);
+	glTexCoord2f(1.0f, 0.5f); glVertex3fv(vertice[7]);
+	glTexCoord2f(1.0f, 0.0f); glVertex3fv(vertice[0]);
 	glEnd();
 }
 
-void CFiguras::jard_p(float altura, float largo, float profundidad, GLuint text)  //Funcion creacion prisma
+void CFiguras::jard_p(float altura, float largo, float profundidad, GLuint text, GLuint text2)  //Funcion creacion prisma
 {
 
 	GLfloat vertice[16][3] = {
@@ -447,21 +531,35 @@ void CFiguras::jard_p(float altura, float largo, float profundidad, GLuint text)
 	glTexCoord2f(0.0f, 1.0f); glVertex3fv(vertice[0]);
 	glEnd();
 
+	glBindTexture(GL_TEXTURE_2D, text2);
+
 	glBegin(GL_POLYGON);  //Top
 	glNormal3f(0.0f, 0.0f, 1.0f);
-	glTexCoord2f(0.0f, 0.0f); glVertex3fv(vertice[8]);
-	glTexCoord2f(0.0f, 0.5f); glVertex3fv(vertice[9]);
-	glTexCoord2f(0.0f, 1.0f); glVertex3fv(vertice[10]);
-	glTexCoord2f(0.5f, 1.0f); glVertex3fv(vertice[11]);
-	glTexCoord2f(1.0f, 1.0f); glVertex3fv(vertice[12]);
-	glTexCoord2f(1.0f, 0.5f); glVertex3fv(vertice[13]);
-	glTexCoord2f(1.0f, 0.0f); glVertex3fv(vertice[14]);
-	glTexCoord2f(0.5f, 0.0f); glVertex3fv(vertice[15]);
+	glTexCoord2f(0.0f, 0.0f);  glVertex3fv(vertice[8]);
+	glTexCoord2f(0.0f, 1.0f);  glVertex3fv(vertice[9]);
+	glTexCoord2f(0.17f, 1.0f); glVertex3fv(vertice[10]);
+	glTexCoord2f(0.67f, 1.0f); glVertex3fv(vertice[11]);
+	glTexCoord2f(0.75f,1.0f);  glVertex3fv(vertice[12]);
+	glTexCoord2f(0.92f, 1.0f); glVertex3fv(vertice[13]);
+	glTexCoord2f(1.0f, 0.5f);  glVertex3fv(vertice[14]);
+	glTexCoord2f(1, 0);        glVertex3fv(vertice[15]);
+	glEnd();
+
+	glBegin(GL_POLYGON);  //Base
+	glNormal3f(0.0f, 0.0f, -1.0f);
+	glTexCoord2f(0.0f, 0.0f);  glVertex3fv(vertice[0]);
+	glTexCoord2f(0.0f, 1.0f);  glVertex3fv(vertice[1]);
+	glTexCoord2f(0.17f, 1.0f); glVertex3fv(vertice[2]);
+	glTexCoord2f(0.67f, 1.0f); glVertex3fv(vertice[3]);
+	glTexCoord2f(0.75f, 1.0f);  glVertex3fv(vertice[4]);
+	glTexCoord2f(0.92f, 1.0f); glVertex3fv(vertice[5]);
+	glTexCoord2f(1.0f, 0.5f);  glVertex3fv(vertice[6]);
+	glTexCoord2f(1, 0);        glVertex3fv(vertice[7]);
 	glEnd();
 }
 
 
-void CFiguras::prisma_t(float altura, float largo, float profundidad, GLuint text)  //Funcion creacion prisma
+void CFiguras::prisma_t(float altura, float largo, float profundidad, GLuint text_lat, GLuint text_sup)  //Funcion creacion prisma
 {
 
 	GLfloat vertice[8][3] = {
@@ -475,7 +573,7 @@ void CFiguras::prisma_t(float altura, float largo, float profundidad, GLuint tex
 				{-0.5*largo ,0.5*altura , 0.5*profundidad},    //Coordenadas Vértice 8 V8
 	};
 
-	glBindTexture(GL_TEXTURE_2D, text);   // choose the texture to use.
+	glBindTexture(GL_TEXTURE_2D, text_lat);   // choose the texture to use.
 	glBegin(GL_POLYGON);	//Front
 	glNormal3f(0.0f, 0.0f, 1.0f);
 	glTexCoord2f(0.0f, 0.0f); glVertex3fv(vertice[0]);
@@ -509,6 +607,8 @@ void CFiguras::prisma_t(float altura, float largo, float profundidad, GLuint tex
 	glTexCoord2f(0.0f, 1.0f); glVertex3fv(vertice[6]);
 	glTexCoord2f(0.0f, 0.0f); glVertex3fv(vertice[2]);
 	glEnd();
+
+	glBindTexture(GL_TEXTURE_2D, text_sup);   // choose the texture to use.
 
 	glBegin(GL_POLYGON);  //Bottom
 	glNormal3f(0.0f, -1.0f, 0.0f);
@@ -816,7 +916,7 @@ void CFiguras::cono(float altura, float radio, int resolucion, GLuint text)
 	}
 }
 
-void CFiguras::cilindro(float radio, float altura, int resolucion, float parte, boolean tapa,boolean base, GLuint text)
+void CFiguras::cilindro(float radio, float altura, int resolucion, float parte, boolean tapa,boolean base, GLuint text_tap, GLuint text_lat)
 {
 	
 	float v1[]={0.0, 0.0, 0.0};
@@ -851,24 +951,27 @@ void CFiguras::cilindro(float radio, float altura, int resolucion, float parte, 
 		v5[0]=radio*cos(angulo*(i+1));
 		v5[1]=altura;
 		v5[2]=radio*sin(angulo*(i+1));
+
+		glBindTexture(GL_TEXTURE_2D, text_tap);
+
 		if (base == true) {
 			glBegin(GL_POLYGON);
 			glNormal3f(0.0f, -1.0f, 0.0f);
 			glVertex3f(0.0, 0.0, 0.0);
-			glVertex3fv(v2);
-			glVertex3fv(v3);
+			glTexCoord2f(ctext_s*i, 0.0f);		glVertex3fv(v2);
+			glTexCoord2f(ctext_s*(i + 1), 0.0f); glVertex3fv(v3);
 			glEnd();
 		}
 		if (tapa == true) {
 			glBegin(GL_POLYGON);
 			glNormal3f(0.0f, 1.0f, 0.0f);
 			glVertex3f(0.0, altura, 0.0);
-			glVertex3fv(v4);
-			glVertex3fv(v5);
+			glTexCoord2f(ctext_s*i, 2.0f);			glVertex3fv(v4);
+			glTexCoord2f(ctext_s*(i + 1), 2.0f); glVertex3fv(v5);
 			glEnd();
 		}
 
-		glBindTexture(GL_TEXTURE_2D, text);
+		glBindTexture(GL_TEXTURE_2D, text_lat);
 		glBegin(GL_POLYGON);
 			glNormal3f( v2[0], 0.0f, v2[2]);
 			glTexCoord2f(ctext_s*i, 0.0f);		glVertex3fv(v2);
@@ -878,3 +981,68 @@ void CFiguras::cilindro(float radio, float altura, int resolucion, float parte, 
 		glEnd();
 	}
 }	
+
+void CFiguras::cilindro(float radio, float altura, int resolucion, float parte, GLuint text_tap, GLuint text_lat, boolean entrada)
+{
+
+	float v1[] = { 0.0, 0.0, 0.0 };
+	float v2[] = { 0.0, 0.0, 0.0 };
+	float v3[] = { 0.0, 0.0, 0.0 };
+	float v4[] = { 0.0, 0.0, 0.0 };
+	float v5[] = { 0.0, 0.0, 0.0 };
+
+	float angulo = 2 * 3.141592 / resolucion;
+	angulo = angulo * parte;
+
+	//float ctext_s = 1/resolucion-1;
+	float ctext_s = 1.0 / resolucion;
+	float ctext_t = 0.0;
+
+
+	for (int i = 0; i < resolucion; i++)
+	{
+		if (i < resolucion / 2) {
+			v2[0] = radio * cos(angulo*i);
+			v2[1] = 0;
+			v2[2] = radio * sin(angulo*i);
+
+			v3[0] = radio * cos(angulo*(i + 1));
+			v3[1] = 0;
+			v3[2] = radio * sin(angulo*(i + 1));
+
+			v4[0] = radio * cos(angulo*i);
+			v4[1] = altura;
+			v4[2] = radio * sin(angulo*i);
+
+			v5[0] = radio * cos(angulo*(i + 1));
+			v5[1] = altura;
+			v5[2] = radio * sin(angulo*(i + 1));
+
+			glBindTexture(GL_TEXTURE_2D, text_tap);
+
+			glBegin(GL_POLYGON);
+			glNormal3f(0.0f, -1.0f, 0.0f);
+			glVertex3f(0.0, 0.0, 0.0);
+			glTexCoord2f(ctext_s*i, 0.0f);		glVertex3fv(v2);
+			glTexCoord2f(ctext_s*(i + 1), 0.0f); glVertex3fv(v3);
+			glEnd();
+			
+			glBegin(GL_POLYGON);
+			glNormal3f(0.0f, 1.0f, 0.0f);
+			glVertex3f(0.0, altura, 0.0);
+			glTexCoord2f(ctext_s*i, 2.0f);			glVertex3fv(v4);
+			glTexCoord2f(ctext_s*(i + 1), 2.0f); glVertex3fv(v5);
+			glEnd();
+			
+
+			glBindTexture(GL_TEXTURE_2D, text_lat);
+			glBegin(GL_POLYGON);
+			glNormal3f(v2[0], 0.0f, v2[2]);
+			glTexCoord2f(ctext_s*i, 0.0f);		glVertex3fv(v2);
+			glTexCoord2f(ctext_s*(i + 1), 0.0f);	glVertex3fv(v3);
+			glTexCoord2f(ctext_s*(i + 1), 1.0f);	glVertex3fv(v5);
+			glTexCoord2f(ctext_s*i, 1.0f);		glVertex3fv(v4);
+			glEnd();
+		}
+	}
+}
