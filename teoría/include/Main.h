@@ -12,3 +12,5 @@
 
 
 #endif 
+
+void modulo();

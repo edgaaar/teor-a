@@ -45,9 +45,16 @@ CTexture edi;
 CTexture pasto;
 CTexture borde;
 CTexture ama;
+CTexture mos;
 CTexture frente;
 CTexture lateral;
 CTexture superior;
+CTexture lad;
+CTexture mad;
+CTexture gab;
+CTexture neg;
+CTexture tec;
+CTexture piz;
 
 CFiguras sky;
 
@@ -189,6 +196,34 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	superior.LoadTGA("sup.tga");
 	superior.BuildGLTexture();
 	superior.ReleaseImage();
+
+	mos.LoadTGA("mos.tga");
+	mos.BuildGLTexture();
+	mos.ReleaseImage();
+
+	mad.LoadTGA("mad.tga");
+	mad.BuildGLTexture();
+	mad.ReleaseImage();
+
+	lad.LoadTGA("lad.tga");
+	lad.BuildGLTexture();
+	lad.ReleaseImage();
+
+	gab.LoadTGA("gab.tga");
+	gab.BuildGLTexture();
+	gab.ReleaseImage();
+
+	neg.LoadTGA("neg.tga");
+	neg.BuildGLTexture();
+	neg.ReleaseImage();
+
+	tec.LoadTGA("tec.tga");
+	tec.BuildGLTexture();
+	tec.ReleaseImage();
+
+	piz.LoadTGA("piz.tga");
+	piz.BuildGLTexture();
+	piz.ReleaseImage();
 	//END NEW//////////////////////////////
 
 	objCamera.Position_Camera(0,2.5f,3, 0,2.5f,0, 0, 1, 0);
@@ -196,8 +231,11 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	objCamera.UpDown_Camera(3);
 	g_lookupdown = 13.0f;
 	//objCamera.Position_Camera(-10, 15, 50, -10, 0, 0, 0, 1, 0);
+	PlaySound("a.wav", NULL, SND_ASYNC | SND_FILENAME | SND_LOOP);
 
 }
+
+
 
 
 void display ( void )   // Creamos la funcion donde se dibuja
@@ -225,7 +263,7 @@ void display ( void )   // Creamos la funcion donde se dibuja
 				glColor3f(1.0,0.0,0.0);
 			glPopMatrix();
 
-			glBegin(GL_LINES);
+			/*glBegin(GL_LINES);
 				glColor3f(1.0, 0.0, 0.0);
 				glVertex3f(0.0, 0.0, 0.0);
 				glVertex3f(100.0, 0.0, 0.0);
@@ -237,7 +275,7 @@ void display ( void )   // Creamos la funcion donde se dibuja
 				glVertex3f(0.0, 0.0, 100.0);
 				glColor3f(1.0, 0.0, 0.0);
 			glEnd();
-
+			*/
 			glPushMatrix();//asfalto
 				glTranslatef(0, -2.5, 10);
 				f.prisma(1, 120, 122,asfalto.GLindex,asfalto.GLindex);
@@ -269,12 +307,12 @@ void display ( void )   // Creamos la funcion donde se dibuja
 			//edificio der
 			glPushMatrix();
 				glTranslatef(20.25, 27 + 1, 0);
-				f.prisma(54, 27, 27, edi.GLindex, 0);
+				f.prisma(54, 27, 27, edi.GLindex, ama.GLindex);
 			glPopMatrix();
 			//edificio izq
 			glPushMatrix();
 				glTranslatef(-20.25, 27 + 1, 0);
-				f.prisma(54, 27, 27, edi.GLindex,0);
+				f.prisma(54, 27, 27, edi.GLindex,ama.GLindex);
 			glPopMatrix();
 			//vestíbulo
 			glPushMatrix();
@@ -495,13 +533,219 @@ void display ( void )   // Creamos la funcion donde se dibuja
 		glPopMatrix();
 		//glDisable(GL_BLEND);
 		glDisable(GL_ALPHA_TEST);
-	glPopMatrix();
 
+		//barditas
+		glPushMatrix();
+		glTranslatef(20.25, 56.001, 0);
+		f.prisma(2, 27, 27, false, true, ama.GLindex);
+		glPopMatrix();
+
+		glPushMatrix();
+		glTranslatef(-20.25, 56.001, 0);
+		f.prisma(2, 27, 27, false, true, ama.GLindex);
+		glPopMatrix();
+
+		glPushMatrix();
+		glTranslatef(0, 12.5, 6.7);
+		f.prisma(2, 13.48, 13.49, false, true, ama.GLindex);
+		glPopMatrix();
+
+		//Laboratorio
+		glPushMatrix();
+			glTranslatef(20.25, 27.5, 0);
+			f.prisma_in(15, 26.8, 25.8, lad.GLindex,mos.GLindex,0);
+		glPopMatrix();
+
+		//pizarrón
+		glPushMatrix();
+		glTranslatef(20, 27.5, -12.6);
+		glRotatef(90, 1, 0, 0);
+		f.prisma(0.2, 9, 6, neg.GLindex, piz.GLindex);
+		glPopMatrix();
+		//izq
+		glPushMatrix();
+		glTranslatef(1, 0, 0);
+			glPushMatrix();
+				glTranslatef(0, 0, -3);
+				modulo();
+			glPopMatrix();
+
+			glPushMatrix();
+				glTranslatef(0, 0, 3);
+				modulo();
+			glPopMatrix();
+
+			glPushMatrix();
+				glTranslatef(0, 0, 8);
+				modulo();
+			glPopMatrix();
+		glPopMatrix();
+		//der
+		glPushMatrix();
+		glTranslatef(16, 0, 0);
+			glPushMatrix();
+			glTranslatef(0, 0, -3);
+			modulo();
+			glPopMatrix();
+
+			glPushMatrix();
+			glTranslatef(0, 0, 3);
+			modulo();
+			glPopMatrix();
+
+			glPushMatrix();
+			glTranslatef(0, 0, 8);
+			modulo();
+			glPopMatrix();
+
+		glPopMatrix();
+		glPopMatrix();
 
 	glutSwapBuffers ( );
 
+
 }
 
+void modulo() {
+	//mesa
+	glPushMatrix();
+	glTranslatef(12, 23.5, 0);
+	f.prisma(0.5, 9, 3, mad.GLindex, mad.GLindex);
+	glPopMatrix();
+
+	//soporte de mesa1
+	glPushMatrix();
+	glTranslatef(12 - 3, 19.5, 0);
+	f.cilindro(0.4, 4, 10, 1, true, true, mad.GLindex, mad.GLindex);
+	glPopMatrix();
+
+	//soporte de mesa2
+	glPushMatrix();
+	glTranslatef(12 + 3, 19.5, 0);
+	f.cilindro(0.4, 4, 10, 1, true, true, mad.GLindex, mad.GLindex);
+	glPopMatrix();
+
+	
+	//////////Computadora//////////
+	//gabinete
+	glPushMatrix();
+	glTranslatef(10, 24.8, 0);
+	glRotatef(-90, 0, 0, 1);
+	glRotatef(90, 1, 0, 0);
+	f.prisma_g(1.5, 2.0, 0.8, neg.GLindex, gab.GLindex);
+	glPopMatrix();
+
+	glPushMatrix();//teclado
+	glTranslatef(8.8, 23.85, 0.8);
+	glRotatef(-90, 0, 1, 0);
+	f.prisma(0.1, 0.5, 0.9, neg.GLindex, tec.GLindex);
+	glPopMatrix();
+
+
+	//monitor
+	glPushMatrix();//base
+	glTranslatef(8.8, 23.85, 0);
+	f.prisma(0.1, 0.7, 0.4, neg.GLindex, neg.GLindex);
+	glPopMatrix();
+	glPushMatrix();//columna
+	glTranslatef(8.8, 23.85, 0);
+	f.cilindro(0.07, 0.6, 5, 1, true, true, neg.GLindex, neg.GLindex);
+	glPopMatrix();
+	glPushMatrix();//columna2
+	glTranslatef(8.8, 24.4, 0);
+	glRotatef(30, 1, 0, 0);
+	f.cilindro(0.07, 0.3, 5, 1, true, true, neg.GLindex, neg.GLindex);
+	glPopMatrix();
+	glPushMatrix();//pantalla
+	glTranslatef(8.8, 24.6, 0.4);
+	glRotatef(45, 0, 0, 1);
+	glRotatef(270, 1, 0, 0);
+	f.cono(0.2, 1, 4, neg.GLindex);
+	glPopMatrix();
+	//glPopMatrix();
+
+	//////////Computadora//////////
+	//gabinete
+	glPushMatrix();
+	glTranslatef(2.6, 0, 0);
+	glPushMatrix();
+	glTranslatef(10, 24.8, 0);
+	glRotatef(-90, 0, 0, 1);
+	glRotatef(90, 1, 0, 0);
+	f.prisma_g(1.5, 2.0, 0.8, neg.GLindex, gab.GLindex);
+	glPopMatrix();
+
+	glPushMatrix();//teclado
+	glTranslatef(8.8, 23.85, 0.8);
+	glRotatef(-90, 0, 1, 0);
+	f.prisma(0.1, 0.5, 0.9, neg.GLindex, tec.GLindex);
+	glPopMatrix();
+
+
+	//monitor
+	glPushMatrix();//base
+	glTranslatef(8.8, 23.85, 0);
+	f.prisma(0.1, 0.7, 0.4, neg.GLindex, neg.GLindex);
+	glPopMatrix();
+	glPushMatrix();//columna
+	glTranslatef(8.8, 23.85, 0);
+	f.cilindro(0.07, 0.6, 5, 1, true, true, neg.GLindex, neg.GLindex);
+	glPopMatrix();
+	glPushMatrix();//columna2
+	glTranslatef(8.8, 24.4, 0);
+	glRotatef(30, 1, 0, 0);
+	f.cilindro(0.07, 0.3, 5, 1, true, true, neg.GLindex, neg.GLindex);
+	glPopMatrix();
+	glPushMatrix();//pantalla
+	glTranslatef(8.8, 24.6, 0.4);
+	glRotatef(45, 0, 0, 1);
+	glRotatef(270, 1, 0, 0);
+	f.cono(0.2, 1, 4, neg.GLindex);
+	glPopMatrix();
+	glPopMatrix();
+
+	//////////Computadora//////////
+//gabinete
+	glPushMatrix();
+	glTranslatef(5.2, 0, 0);
+
+	glPushMatrix();
+	glTranslatef(10, 24.8, 0);
+	glRotatef(-90, 0, 0, 1);
+	glRotatef(90, 1, 0, 0);
+	f.prisma_g(1.5, 2.0, 0.8, neg.GLindex, gab.GLindex);
+	glPopMatrix();
+
+	glPushMatrix();//teclado
+	glTranslatef(8.8, 23.85, 0.8);
+	glRotatef(-90, 0, 1, 0);
+	f.prisma(0.1, 0.5, 0.9, neg.GLindex, tec.GLindex);
+	glPopMatrix();
+
+
+	//monitor
+	glPushMatrix();//base
+	glTranslatef(8.8, 23.85, 0);
+	f.prisma(0.1, 0.7, 0.4, neg.GLindex, neg.GLindex);
+	glPopMatrix();
+	glPushMatrix();//columna
+	glTranslatef(8.8, 23.85, 0);
+	f.cilindro(0.07, 0.6, 5, 1, true, true, neg.GLindex, neg.GLindex);
+	glPopMatrix();
+	glPushMatrix();//columna2
+	glTranslatef(8.8, 24.4, 0);
+	glRotatef(30, 1, 0, 0);
+	f.cilindro(0.07, 0.3, 5, 1, true, true, neg.GLindex, neg.GLindex);
+	glPopMatrix();
+	glPushMatrix();//pantalla
+	glTranslatef(8.8, 24.6, 0.4);
+	glRotatef(45, 0, 0, 1);
+	glRotatef(270, 1, 0, 0);
+	f.cono(0.2, 1, 4, neg.GLindex);
+	glPopMatrix();
+
+	glPopMatrix();
+}
 void animacion()
 {
 
@@ -611,8 +855,8 @@ int main ( int argc, char** argv )   // Main Function
   glutSpecialFunc     ( arrow_keys );	//Otras
   glutIdleFunc		  ( animacion );
 
-
   glutMainLoop        ( );          // 
+  
 
   return 0;
 }
